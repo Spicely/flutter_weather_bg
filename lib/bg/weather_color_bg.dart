@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_weather_bg/utils/weather_type.dart';
+
+import '../utils/weather_type.dart';
 
 /// 颜色背景层
 class WeatherColorBg extends StatelessWidget {
   final WeatherType weatherType;
 
   /// 控制背景的高度
-  final double height;
+  final double? height;
 
-  WeatherColorBg({Key key, this.weatherType, this.height}) : super(key: key);
+  WeatherColorBg({Key? key, required this.weatherType, this.height}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

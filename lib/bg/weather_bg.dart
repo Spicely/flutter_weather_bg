@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_weather_bg/bg/weather_cloud_bg.dart';
-import 'package:flutter_weather_bg/bg/weather_color_bg.dart';
-import 'package:flutter_weather_bg/bg/weather_night_star_bg.dart';
-import 'package:flutter_weather_bg/bg/weather_rain_snow_bg.dart';
-import 'package:flutter_weather_bg/bg/weather_thunder_bg.dart';
-import 'package:flutter_weather_bg/utils/weather_type.dart';
+
+import '../utils/weather_type.dart';
+import 'weather_cloud_bg.dart';
+import 'weather_color_bg.dart';
+import 'weather_night_star_bg.dart';
+import 'weather_rain_snow_bg.dart';
+import 'weather_thunder_bg.dart';
 
 /// 最核心的类，集合背景&雷&雨雪&晴晚&流星效果
 /// 1. 支持动态切换大小
@@ -14,17 +15,15 @@ class WeatherBg extends StatefulWidget {
   final double width;
   final double height;
 
-  WeatherBg(
-      {Key key, this.weatherType, @required this.width, @required this.height})
-      : super(key: key);
+  WeatherBg({Key? key, required this.weatherType, required this.width, required this.height}) : super(key: key);
 
   @override
   _WeatherBgState createState() => _WeatherBgState();
 }
 
-class _WeatherBgState extends State<WeatherBg>
-    with SingleTickerProviderStateMixin {
-  WeatherType _oldWeatherType;
+class _WeatherBgState extends State<WeatherBg> with SingleTickerProviderStateMixin {
+  WeatherType? _oldWeatherType;
+
   bool needChange = false;
   var state = CrossFadeState.showSecond;
 
@@ -43,7 +42,7 @@ class _WeatherBgState extends State<WeatherBg>
     var oldBgWidget;
     if (_oldWeatherType != null) {
       oldBgWidget = WeatherItemBg(
-        weatherType: _oldWeatherType,
+        weatherType: _oldWeatherType!,
         width: widget.width,
         height: widget.height,
       );
@@ -84,11 +83,10 @@ class _WeatherBgState extends State<WeatherBg>
 
 class WeatherItemBg extends StatelessWidget {
   final WeatherType weatherType;
-  final width;
-  final height;
+  final double width;
+  final double height;
 
-  WeatherItemBg({Key key, this.weatherType, this.width, this.height})
-      : super(key: key);
+  WeatherItemBg({Key? key, required this.weatherType, required this.width, required this.height}) : super(key: key);
 
   /// 构建晴晚背景效果
   Widget _buildNightStarBg() {
@@ -131,9 +129,7 @@ class WeatherItemBg extends StatelessWidget {
         child: Stack(
           children: [
             WeatherColorBg(weatherType: weatherType),
-            WeatherCloudBg(
-              weatherType: weatherType,
-            ),
+            WeatherCloudBg(weatherType: weatherType),
             _buildRainSnowBg(),
             _buildThunderBg(),
             _buildNightStarBg(),
@@ -148,13 +144,12 @@ class SizeInherited extends InheritedWidget {
   final Size size;
 
   const SizeInherited({
-    Key key,
-    @required Widget child,
-    @required this.size,
-  })  : assert(child != null),
-        super(key: key, child: child);
+    Key? key,
+    required Widget child,
+    required this.size,
+  }) : super(key: key, child: child);
 
-  static SizeInherited of(BuildContext context) {
+  static SizeInherited? of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<SizeInherited>();
   }
 

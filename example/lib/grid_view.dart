@@ -22,7 +22,13 @@ class _GridViewWidgetState extends State<GridViewWidget> {
             PopupMenuButton<int>(
               itemBuilder: (context) {
                 return <PopupMenuEntry<int>>[
-                  ...[1, 2, 3, 4, 5,]
+                  ...[
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                  ]
                       .map((e) => PopupMenuItem<int>(
                             value: e,
                             child: Text("$e"),
@@ -59,13 +65,13 @@ class GridItemWidget extends StatelessWidget {
   final WeatherType weatherType;
   final int count;
 
-  GridItemWidget({Key key, this.weatherType, this.count}) : super(key: key);
+  GridItemWidget({Key? key, required this.weatherType, required this.count}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     weatherPrint("grid item size: ${MediaQuery.of(context).size}");
     var radius = 20.0 - 2 * count;
-    var margin =  10.0 - count;
+    var margin = 10.0 - count;
     return Card(
       elevation: 6,
       margin: EdgeInsets.all(margin),
@@ -82,8 +88,7 @@ class GridItemWidget extends StatelessWidget {
             Center(
               child: Text(
                 WeatherUtil.getWeatherDesc(weatherType),
-                style: TextStyle(
-                    color: Colors.white, fontSize: 30 / count, fontWeight: FontWeight.bold),
+                style: TextStyle(color: Colors.white, fontSize: 30 / count, fontWeight: FontWeight.bold),
               ),
             )
           ],

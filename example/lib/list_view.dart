@@ -35,7 +35,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
 class ListItemWidget extends StatelessWidget {
   final WeatherType weatherType;
 
-  ListItemWidget({Key key, this.weatherType}) : super(key: key);
+  ListItemWidget({Key? key, required this.weatherType}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,10 +56,7 @@ class ListItemWidget extends StatelessWidget {
               height: 100,
               child: Text(
                 "北京",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold),
+                style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),
               ),
             ),
             Container(
@@ -67,17 +64,12 @@ class ListItemWidget extends StatelessWidget {
               height: 100,
               child: Text(
                 WeatherUtil.getWeatherDesc(weatherType),
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold),
+                style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),
               ),
             )
           ],
         ),
-        clipper: ShapeBorderClipper(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20)))),
+        clipper: ShapeBorderClipper(shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20)))),
       ),
     );
   }

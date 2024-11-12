@@ -11,7 +11,7 @@ import 'package:flutter_weather_bg/utils/weather_type.dart';
 class WeatherCloudBg extends StatefulWidget {
   final WeatherType weatherType;
 
-  WeatherCloudBg({Key key, this.weatherType}) : super(key: key);
+  WeatherCloudBg({Key? key, required this.weatherType}) : super(key: key);
 
   @override
   _WeatherCloudBgState createState() => _WeatherCloudBgState();
@@ -26,8 +26,10 @@ class _WeatherCloudBgState extends State<WeatherCloudBg> {
     var image2 = await ImageUtils.getImage('images/sun.webp');
     _images.add(image1);
     _images.add(image2);
-    weatherPrint("获取云层图片成功： ${_images?.length}");
-    setState(() {});
+    weatherPrint("获取云层图片成功： ${_images.length}");
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
@@ -37,13 +39,9 @@ class _WeatherCloudBgState extends State<WeatherCloudBg> {
   }
 
   Widget _buildWidget() {
-    if (_images != null && _images.isNotEmpty) {
+    if (_images.isNotEmpty) {
       return CustomPaint(
-        painter: BgPainter(
-            _images,
-            widget.weatherType,
-            SizeInherited.of(context).size.width / 392.0,
-            SizeInherited.of(context).size.width),
+        painter: BgPainter(_images, widget.weatherType, SizeInherited.of(context)!.size.width / 392.0, SizeInherited.of(context)!.size.width),
       );
     } else {
       return Container();
@@ -67,7 +65,7 @@ class BgPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (images != null && images.isNotEmpty) {
+    if (images.isNotEmpty) {
       switch (weatherType) {
         case WeatherType.sunny:
           drawSunny(canvas, size);
@@ -123,8 +121,7 @@ class BgPainter extends CustomPainter {
     canvas.save();
     final sunScale = 1.2 * widthRatio;
     canvas.scale(sunScale, sunScale);
-    var offset = Offset(width.toDouble() - image1.width.toDouble() * sunScale,
-        -image1.width.toDouble() / 2);
+    var offset = Offset(width.toDouble() - image1.width.toDouble() * sunScale, -image1.width.toDouble() / 2);
     canvas.drawImage(image1, offset, _paint);
     canvas.restore();
 

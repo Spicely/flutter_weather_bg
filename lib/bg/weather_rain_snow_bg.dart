@@ -1,12 +1,12 @@
 import 'dart:math';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_weather_bg/bg/weather_bg.dart';
-import 'package:flutter_weather_bg/utils/image_utils.dart';
-import 'package:flutter_weather_bg/utils/print_utils.dart';
 import 'dart:ui' as ui;
 
-import 'package:flutter_weather_bg/utils/weather_type.dart';
+import 'package:flutter/material.dart';
+
+import '../utils/image_utils.dart';
+import '../utils/print_utils.dart';
+import '../utils/weather_type.dart';
+import 'weather_bg.dart';
 
 //// 雨雪动画层
 class WeatherRainSnowBg extends StatefulWidget {
@@ -14,21 +14,18 @@ class WeatherRainSnowBg extends StatefulWidget {
   final double viewWidth;
   final double viewHeight;
 
-  WeatherRainSnowBg(
-      {Key key, this.weatherType, this.viewWidth, this.viewHeight})
-      : super(key: key);
+  WeatherRainSnowBg({Key? key, required this.weatherType, required this.viewWidth, required this.viewHeight}) : super(key: key);
 
   @override
   _WeatherRainSnowBgState createState() => _WeatherRainSnowBgState();
 }
 
-class _WeatherRainSnowBgState extends State<WeatherRainSnowBg>
-    with SingleTickerProviderStateMixin {
+class _WeatherRainSnowBgState extends State<WeatherRainSnowBg> with SingleTickerProviderStateMixin {
   List<ui.Image> _images = [];
-  AnimationController _controller;
+  late AnimationController _controller;
   List<RainSnowParams> _rainSnows = [];
   int count = 0;
-  WeatherDataState _state;
+  WeatherDataState? _state;
 
   /// 异步获取雨雪的图片资源和初始化数据
   Future<void> fetchImages() async {
@@ -38,7 +35,7 @@ class _WeatherRainSnowBgState extends State<WeatherRainSnowBg>
     _images.clear();
     _images.add(image1);
     _images.add(image2);
-    weatherPrint("获取雨雪图片成功： ${_images?.length}");
+    weatherPrint("获取雨雪图片成功： ${_images.length}");
     _state = WeatherDataState.init;
     setState(() {});
   }
@@ -47,15 +44,13 @@ class _WeatherRainSnowBgState extends State<WeatherRainSnowBg>
   Future<void> initParams() async {
     _state = WeatherDataState.loading;
     if (widget.viewWidth != 0 && widget.viewHeight != 0 && _rainSnows.isEmpty) {
-      weatherPrint(
-          "开始雨参数初始化 ${_rainSnows.length}， weatherType: ${widget.weatherType}, isRainy: ${WeatherUtil.isRainy(widget.weatherType)}");
+      weatherPrint("开始雨参数初始化 ${_rainSnows.length}， weatherType: ${widget.weatherType}, isRainy: ${WeatherUtil.isRainy(widget.weatherType)}");
       if (WeatherUtil.isSnowRain(widget.weatherType)) {
         if (widget.weatherType == WeatherType.lightRainy) {
           count = 70;
         } else if (widget.weatherType == WeatherType.middleRainy) {
           count = 100;
-        } else if (widget.weatherType == WeatherType.heavyRainy ||
-            widget.weatherType == WeatherType.thunder) {
+        } else if (widget.weatherType == WeatherType.heavyRainy || widget.weatherType == WeatherType.thunder) {
           count = 200;
         } else if (widget.weatherType == WeatherType.lightSnow) {
           count = 30;
@@ -64,11 +59,10 @@ class _WeatherRainSnowBgState extends State<WeatherRainSnowBg>
         } else if (widget.weatherType == WeatherType.heavySnow) {
           count = 200;
         }
-        var widthRatio = SizeInherited.of(context).size.width / 392.0;
-        var heightRatio = SizeInherited.of(context).size.height / 817;
+        var widthRatio = SizeInherited.of(context)!.size.width / 392.0;
+        var heightRatio = SizeInherited.of(context)!.size.height / 817;
         for (int i = 0; i < count; i++) {
-          var rainSnow = RainSnowParams(
-              widget.viewWidth, widget.viewHeight, widget.weatherType);
+          var rainSnow = RainSnowParams(widget.viewWidth, widget.viewHeight, widget.weatherType);
           rainSnow.init(widthRatio, heightRatio);
           _rainSnows.add(rainSnow);
         }
@@ -82,9 +76,7 @@ class _WeatherRainSnowBgState extends State<WeatherRainSnowBg>
   @override
   void didUpdateWidget(WeatherRainSnowBg oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.weatherType != widget.weatherType ||
-        oldWidget.viewWidth != widget.viewWidth ||
-        oldWidget.viewHeight != widget.viewHeight) {
+    if (oldWidget.weatherType != widget.weatherType || oldWidget.viewWidth != widget.viewWidth || oldWidget.viewHeight != widget.viewHeight) {
       _rainSnows.clear();
       initParams();
     }
@@ -92,8 +84,7 @@ class _WeatherRainSnowBgState extends State<WeatherRainSnowBg>
 
   @override
   void initState() {
-    _controller =
-        AnimationController(duration: Duration(minutes: 1), vsync: this);
+    _controller = AnimationController(duration: Duration(minutes: 1), vsync: this);
     CurvedAnimation(parent: _controller, curve: Curves.linear);
     _controller.addListener(() {
       setState(() {});
@@ -142,9 +133,9 @@ class RainSnowPainter extends CustomPainter {
   }
 
   void drawRain(Canvas canvas, Size size) {
-    if (_state._images != null && _state._images.length > 1) {
+    if (_state._images.length > 1) {
       ui.Image image = _state._images[0];
-      if (_state._rainSnows != null && _state._rainSnows.isNotEmpty) {
+      if (_state._rainSnows.isNotEmpty) {
         _state._rainSnows.forEach((element) {
           move(element);
           ui.Offset offset = ui.Offset(element.x, element.y);
@@ -183,16 +174,12 @@ class RainSnowPainter extends CustomPainter {
   void move(RainSnowParams params) {
     params.y = params.y + params.speed;
     if (WeatherUtil.isSnow(_state.widget.weatherType)) {
-      double offsetX = sin(params.y / (300 + 50 * params.alpha)) *
-          (1 + 0.5 * params.alpha) *
-          params.widthRatio;
+      double offsetX = sin(params.y / (300 + 50 * params.alpha)) * (1 + 0.5 * params.alpha) * params.widthRatio;
       params.x += offsetX;
     }
     if (params.y > params.height / params.scale) {
       params.y = -params.height * params.scale;
-      if (WeatherUtil.isRainy(_state.widget.weatherType) &&
-          _state._images.isNotEmpty &&
-          _state._images[0] != null) {
+      if (WeatherUtil.isRainy(_state.widget.weatherType) && _state._images.isNotEmpty) {
         params.y = -_state._images[0].height.toDouble();
       }
       params.reset();
@@ -200,9 +187,9 @@ class RainSnowPainter extends CustomPainter {
   }
 
   void drawSnow(Canvas canvas, Size size) {
-    if (_state._images != null && _state._images.length > 1) {
+    if (_state._images.length > 1) {
       ui.Image image = _state._images[1];
-      if (_state._rainSnows != null && _state._rainSnows.isNotEmpty) {
+      if (_state._rainSnows.isNotEmpty) {
         _state._rainSnows.forEach((element) {
           move(element);
           ui.Offset offset = ui.Offset(element.x, element.y);
@@ -272,7 +259,7 @@ class RainSnowParams {
   double widthRatio;
   double heightRatio;
 
-  RainSnowParams(this.width, this.height, this.weatherType);
+  RainSnowParams(this.width, this.height, this.weatherType, {this.x = 0, this.y = 0, this.speed = 1, this.scale = 1, this.alpha = 1, this.widthRatio = 1, this.heightRatio = 1});
 
   void init(widthRatio, heightRatio) {
     this.widthRatio = widthRatio;
@@ -291,8 +278,7 @@ class RainSnowParams {
       ratio = 0.5;
     } else if (weatherType == WeatherType.middleRainy) {
       ratio = 0.75;
-    } else if (weatherType == WeatherType.heavyRainy ||
-        weatherType == WeatherType.thunder) {
+    } else if (weatherType == WeatherType.heavyRainy || weatherType == WeatherType.thunder) {
       ratio = 1;
     } else if (weatherType == WeatherType.lightSnow) {
       ratio = 0.5;
@@ -306,15 +292,13 @@ class RainSnowParams {
       this.scale = random * 1.2;
       this.speed = 30 * random * ratio * heightRatio;
       this.alpha = random * 0.6;
-      x = Random().nextInt(width * 1.2 ~/ scale).toDouble() -
-          width * 0.1 ~/ scale;
+      x = Random().nextInt(width * 1.2 ~/ scale).toDouble() - width * 0.1 ~/ scale;
     } else {
       double random = 0.4 + 0.12 * Random().nextDouble() * 5;
       this.scale = random * 0.8 * heightRatio;
       this.speed = 8 * random * ratio * heightRatio;
       this.alpha = random;
-      x = Random().nextInt(width * 1.2 ~/ scale).toDouble() -
-          width * 0.1 ~/ scale;
+      x = Random().nextInt(width * 1.2 ~/ scale).toDouble() - width * 0.1 ~/ scale;
     }
   }
 }
