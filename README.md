@@ -1,39 +1,72 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# flutter_weather_bg
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+[![Pub Version](https://img.shields.io/pub/v/flutter_weather_bg?style=plastic)](https://pub.flutter-io.cn/packages/flutter_weather_bg)
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
+A rich and cool weather dynamic background plug-in, supporting 15 weather types. [README_ZH](https://github.com/xiaweizi/flutter_weather_bg/blob/master/README_ZH.md)
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+**Use this plug-in to complete the weather background animation effect in my own project  [SimplicityWeather](https://github.com/xiaweizi/SimplicityWeather) .**
+**If you want to experience it, please [click the download link](http://xiaweizi.top/SimplicityWeather-2_6.apk) to download it**
 
-## Features
+## Features 
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- It supports 15 weather types: sunny, sunny evening, cloudy, cloudy evening, overcast, small to medium heavy rain, small to medium heavy snow, fog, haze, floating dust and thunderstorm
+- Support dynamic scale size, adapt to multi scene display
+- Supports over animation when switching weather types
 
-## Getting started
+## Supported platforms 
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+- Flutter Android
+- Flutter iOS
+- Flutter web
+- Flutter desktop
 
-## Usage
+## Installation
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+Add  `flutter_weather_bg: ^2.8.0` to your `pubspec.yaml` dependencies. And import it:
 
-```dart
-const like = 'sample';
+```dar
+import 'package:flutter_weather_bg/flutter_weather_bg.dart';
 ```
 
-## Additional information
+## How to use 
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+To configure the weather type by creating `WeatherBg`, you need to pass in the width and height to complete the final display
+
+```dart
+WeatherBg(weatherType: _weatherType,width: _width,height: _height,)
+```
+
+## Preview
+
+Regular `pageview` display effect
+
+![home](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/92cbc9dbbd19419793ffec0e9f04457b~tplv-k3u1fbpfcp-zoom-1.image)
+
+
+
+List `listview` display effect
+
+![list](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e6076f6ca3af4d3a8778313006ab9663~tplv-k3u1fbpfcp-zoom-1.image)
+
+
+
+The grid` GridView`displays the effect and supports the dynamic switching of the grid number
+
+![check](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d2e396e151764a7e8f86e798282833b9~tplv-k3u1fbpfcp-zoom-1.image)
+
+
+Dynamic reduction example demonstration
+
+![width_height](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c8a4002423db4b77b0d2374f6da1c055~tplv-k3u1fbpfcp-zoom-1.image)
+
+
+
+Toggle weather type transition animation
+
+![check](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5c4e75165cbb4a87b8176baa636c432d~tplv-k3u1fbpfcp-zoom-1.image)
+
+
+
+## License 
+
+MIT
