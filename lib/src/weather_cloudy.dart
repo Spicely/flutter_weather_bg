@@ -1,7 +1,9 @@
+// ignore_for_file: library_private_types_in_public_api
+
 part of '../weather_animation.dart';
 
 class _CloudAnimation extends StatefulWidget {
-  final WeatherImage weatherImage;
+  final _WeatherImage weatherImage;
 
   final WeatherType weatherType;
 
@@ -17,7 +19,7 @@ class _CloudAnimationState extends State<_CloudAnimation> {
     return ClipRect(
       child: Stack(
         children: [
-          WeatherBgColor(weatherType: widget.weatherType),
+          _WeatherBgColor(weatherType: widget.weatherType),
           CustomPaint(
             size: const Size(double.infinity, double.infinity),
             painter: CloudPainter(weatherType: widget.weatherType, weatherImage: widget.weatherImage),
@@ -35,7 +37,7 @@ class _CloudAnimationState extends State<_CloudAnimation> {
     if (widget.weatherType == WeatherType.sunnyNight) {
       return LayoutBuilder(
         builder: (context, constraints) {
-          return WeatherNightStarBg(weatherType: widget.weatherType, width: constraints.maxWidth, height: constraints.maxHeight);
+          return _WeatherNightStarBg(weatherType: widget.weatherType, width: constraints.maxWidth, height: constraints.maxHeight);
         },
       );
     }
@@ -47,7 +49,12 @@ class _CloudAnimationState extends State<_CloudAnimation> {
     if (widget.weatherType == WeatherType.thunder) {
       return LayoutBuilder(
         builder: (context, constraints) {
-          return WeatherThunderBg(weatherType: widget.weatherType, weatherImage: widget.weatherImage, width: constraints.maxWidth, height: constraints.maxHeight);
+          return _WeatherThunderBg(
+            weatherType: widget.weatherType,
+            weatherImage: widget.weatherImage,
+            width: constraints.maxWidth,
+            height: constraints.maxHeight,
+          );
         },
       );
     }
@@ -56,10 +63,10 @@ class _CloudAnimationState extends State<_CloudAnimation> {
 
   /// 构建雨雪背景效果
   Widget _buildRainSnowBg() {
-    if (_Utils.isSnowRain(widget.weatherType)) {
+    if (WeatherUtils.isSnowRain(widget.weatherType)) {
       return LayoutBuilder(
         builder: (context, constraints) {
-          return WeatherRainSnowBg(
+          return _WeatherRainSnowBg(
             weatherType: widget.weatherType,
             viewHeight: constraints.maxHeight,
             weatherImage: widget.weatherImage,
@@ -75,7 +82,7 @@ class _CloudAnimationState extends State<_CloudAnimation> {
 class CloudPainter extends CustomPainter {
   final _paint = Paint();
 
-  final WeatherImage weatherImage;
+  final _WeatherImage weatherImage;
 
   final WeatherType weatherType;
 

@@ -1,13 +1,28 @@
 part of '../weather_animation.dart';
 
 enum WeatherType {
-  heavyRainy,
+  /// 大雪
   heavySnow,
+
+  /// 中雪
   middleSnow,
-  thunder,
-  lightRainy,
+
+  /// 小雪
   lightSnow,
+
+  /// 大雨
+  heavyRainy,
+
+  /// 小雨
+  lightRainy,
+
+  /// 雷阵雨
+  thunder,
+
+  /// 晚上晴
   sunnyNight,
+
+  /// 晴
   sunny,
 
   /// 多云
@@ -15,7 +30,11 @@ enum WeatherType {
 
   /// 多云晚上
   cloudyNight,
+
+  /// 中雨
   middleRainy,
+
+  /// 阴
   overcast,
 
   /// 霾

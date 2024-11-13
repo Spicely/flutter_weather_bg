@@ -1,6 +1,6 @@
 part of '../weather_animation.dart';
 
-class _Utils {
+class WeatherUtils {
   /// 通过assets路径，获取资源图片
   static Future<ui.Image> load(String asset) async {
     ByteData data = await rootBundle.load('packages/weather_animation/$asset');
@@ -61,7 +61,6 @@ class _Utils {
   }
 
   // 根据天气类型获取天气的描述信息
-  // ignore: unused_element
   static String getWeatherDesc(WeatherType weatherType) {
     switch (weatherType) {
       case WeatherType.sunny:

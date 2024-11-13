@@ -1,25 +1,28 @@
 part of '../weather_animation.dart';
 
 /// 雷暴动画层
-class WeatherThunderBg extends StatefulWidget {
+class _WeatherThunderBg extends StatefulWidget {
   final WeatherType weatherType;
 
-  final WeatherImage weatherImage;
+  final _WeatherImage weatherImage;
 
   final double width;
 
   final double height;
 
-  const WeatherThunderBg({super.key, required this.weatherType, required this.weatherImage, required this.width, required this.height});
+  const _WeatherThunderBg({required this.weatherType, required this.weatherImage, required this.width, required this.height});
 
   @override
-  State<WeatherThunderBg> createState() => _WeatherCloudBgState();
+  State<_WeatherThunderBg> createState() => _WeatherCloudBgState();
 }
 
-class _WeatherCloudBgState extends State<WeatherThunderBg> with SingleTickerProviderStateMixin {
+class _WeatherCloudBgState extends State<_WeatherThunderBg> with SingleTickerProviderStateMixin {
   final List<ui.Image> _images = [];
+
   late AnimationController _controller;
+
   final List<ThunderParams> _thunderParams = [];
+
   WeatherDataState? _state;
 
   /// 异步获取雷暴图片资源

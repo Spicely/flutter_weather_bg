@@ -1,24 +1,32 @@
+// ignore_for_file: library_private_types_in_public_api
+
 part of '../weather_animation.dart';
 
 //// 雨雪动画层
-class WeatherRainSnowBg extends StatefulWidget {
+class _WeatherRainSnowBg extends StatefulWidget {
   final WeatherType weatherType;
 
-  final WeatherImage weatherImage;
+  final _WeatherImage weatherImage;
+
   final double viewWidth;
+
   final double viewHeight;
 
-  const WeatherRainSnowBg({super.key, required this.weatherType, required this.weatherImage, required this.viewWidth, required this.viewHeight});
+  const _WeatherRainSnowBg({required this.weatherType, required this.weatherImage, required this.viewWidth, required this.viewHeight});
 
   @override
-  State<WeatherRainSnowBg> createState() => _WeatherRainSnowBgState();
+  State<_WeatherRainSnowBg> createState() => _WeatherRainSnowBgState();
 }
 
-class _WeatherRainSnowBgState extends State<WeatherRainSnowBg> with SingleTickerProviderStateMixin {
+class _WeatherRainSnowBgState extends State<_WeatherRainSnowBg> with SingleTickerProviderStateMixin {
   final List<ui.Image> _images = [];
+
   late AnimationController _controller;
+
   final List<RainSnowParams> _rainSnows = [];
+
   int count = 0;
+
   WeatherDataState? _state;
 
   /// 异步获取雨雪的图片资源和初始化数据
@@ -34,8 +42,8 @@ class _WeatherRainSnowBgState extends State<WeatherRainSnowBg> with SingleTicker
   Future<void> initParams() async {
     _state = WeatherDataState.loading;
     if (widget.viewWidth != 0 && widget.viewHeight != 0 && _rainSnows.isEmpty) {
-      debugPrint("开始雨参数初始化 ${_rainSnows.length}， weatherType: ${widget.weatherType}, isRainy: ${_Utils.isRainy(widget.weatherType)}");
-      if (_Utils.isSnowRain(widget.weatherType)) {
+      debugPrint("开始雨参数初始化 ${_rainSnows.length}， weatherType: ${widget.weatherType}, isRainy: ${WeatherUtils.isRainy(widget.weatherType)}");
+      if (WeatherUtils.isSnowRain(widget.weatherType)) {
         if (widget.weatherType == WeatherType.lightRainy) {
           count = 70;
         } else if (widget.weatherType == WeatherType.middleRainy) {
@@ -64,7 +72,7 @@ class _WeatherRainSnowBgState extends State<WeatherRainSnowBg> with SingleTicker
   }
 
   @override
-  void didUpdateWidget(WeatherRainSnowBg oldWidget) {
+  void didUpdateWidget(_WeatherRainSnowBg oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.weatherType != widget.weatherType || oldWidget.viewWidth != widget.viewWidth || oldWidget.viewHeight != widget.viewHeight) {
       _rainSnows.clear();
@@ -111,14 +119,13 @@ class RainSnowPainter extends CustomPainter {
   final _paint = Paint();
   final _WeatherRainSnowBgState _state;
 
-  // ignore: library_private_types_in_public_api
   RainSnowPainter(this._state);
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (_Utils.isSnow(_state.widget.weatherType)) {
+    if (WeatherUtils.isSnow(_state.widget.weatherType)) {
       drawSnow(canvas, size);
-    } else if (_Utils.isRainy(_state.widget.weatherType)) {
+    } else if (WeatherUtils.isRainy(_state.widget.weatherType)) {
       drawRain(canvas, size);
     }
   }
@@ -143,13 +150,13 @@ class RainSnowPainter extends CustomPainter {
 
   void move(RainSnowParams params) {
     params.y = params.y + params.speed;
-    if (_Utils.isSnow(_state.widget.weatherType)) {
+    if (WeatherUtils.isSnow(_state.widget.weatherType)) {
       double offsetX = sin(params.y / (300 + 50 * params.alpha)) * (1 + 0.5 * params.alpha) * params.widthRatio;
       params.x += offsetX;
     }
     if (params.y > params.height / params.scale) {
       params.y = -params.height * params.scale;
-      if (_Utils.isRainy(_state.widget.weatherType) && _state._images.isNotEmpty) {
+      if (WeatherUtils.isRainy(_state.widget.weatherType) && _state._images.isNotEmpty) {
         params.y = -_state._images[0].height.toDouble();
       }
       params.reset();
@@ -236,7 +243,7 @@ class RainSnowParams {
     } else if (weatherType == WeatherType.heavySnow) {
       ratio = 1;
     }
-    if (_Utils.isRainy(weatherType)) {
+    if (WeatherUtils.isRainy(weatherType)) {
       double random = 0.4 + 0.12 * Random().nextDouble() * 5;
       scale = random * 1.2;
       speed = 30 * random * ratio * heightRatio;

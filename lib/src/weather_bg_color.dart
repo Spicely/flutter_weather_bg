@@ -1,16 +1,16 @@
 part of '../weather_animation.dart';
 
-class WeatherBgColor extends StatelessWidget {
+class _WeatherBgColor extends StatelessWidget {
   final WeatherType weatherType;
 
-  const WeatherBgColor({super.key, required this.weatherType});
+  const _WeatherBgColor({required this.weatherType});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: _Utils.getColor(weatherType),
+          colors: WeatherUtils.getColor(weatherType),
           stops: const [0, 1],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,

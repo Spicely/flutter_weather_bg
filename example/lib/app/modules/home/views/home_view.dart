@@ -11,7 +11,7 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return const Scaffold(
       backgroundColor: Colors.red,
-      body: WrapperScene(
+      body: WeatherScene(
         weatherType: WeatherType.heavySnow,
       ),
     );

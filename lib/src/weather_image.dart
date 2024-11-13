@@ -1,6 +1,6 @@
 part of '../weather_animation.dart';
 
-class WeatherImage {
+class _WeatherImage {
   /// 云
   final ui.Image cloud;
 
@@ -15,7 +15,7 @@ class WeatherImage {
   final ui.Image snow;
   final ui.Image sun;
 
-  WeatherImage({
+  _WeatherImage({
     required this.cloud,
     required this.lightning0,
     required this.lightning1,

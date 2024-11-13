@@ -1,20 +1,20 @@
 part of '../weather_animation.dart';
 
 //// 晴晚&流星层
-class WeatherNightStarBg extends StatefulWidget {
+class _WeatherNightStarBg extends StatefulWidget {
   final WeatherType weatherType;
 
   final double width;
 
   final double height;
 
-  const WeatherNightStarBg({super.key, required this.weatherType, required this.width, required this.height});
+  const _WeatherNightStarBg({required this.weatherType, required this.width, required this.height});
 
   @override
-  State<WeatherNightStarBg> createState() => _WeatherNightStarBgState();
+  State<_WeatherNightStarBg> createState() => _WeatherNightStarBgState();
 }
 
-class _WeatherNightStarBgState extends State<WeatherNightStarBg> with SingleTickerProviderStateMixin {
+class _WeatherNightStarBgState extends State<_WeatherNightStarBg> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   final List<_StarParam> _starParams = [];

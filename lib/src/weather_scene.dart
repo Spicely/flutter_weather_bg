@@ -1,36 +1,36 @@
 part of '../weather_animation.dart';
 
-class WrapperScene extends StatefulWidget {
+class WeatherScene extends StatefulWidget {
   final WeatherType weatherType;
 
-  const WrapperScene({
+  const WeatherScene({
     super.key,
     this.weatherType = WeatherType.cloudy,
   });
 
   @override
-  State<WrapperScene> createState() => _WrapperSceneState();
+  State<WeatherScene> createState() => _WeatherSceneState();
 }
 
-class _WrapperSceneState extends State<WrapperScene> {
-  Future<WeatherImage>? _fetchImages;
+class _WeatherSceneState extends State<WeatherScene> {
+  Future<_WeatherImage>? _fetchImages;
 
   /// 异步获取雷暴图片资源
-  Future<WeatherImage> fetchImages() async {
+  Future<_WeatherImage> fetchImages() async {
     debugPrint('开始获取图片');
     List<ui.Image> images = await Future.wait<ui.Image>([
-      _Utils.load('images/cloud.webp'),
-      _Utils.load('images/lightning0.webp'),
-      _Utils.load('images/lightning1.webp'),
-      _Utils.load('images/lightning2.webp'),
-      _Utils.load('images/lightning3.webp'),
-      _Utils.load('images/lightning4.webp'),
-      _Utils.load('images/rain.webp'),
-      _Utils.load('images/snow.webp'),
-      _Utils.load('images/sun.webp'),
+      WeatherUtils.load('images/cloud.webp'),
+      WeatherUtils.load('images/lightning0.webp'),
+      WeatherUtils.load('images/lightning1.webp'),
+      WeatherUtils.load('images/lightning2.webp'),
+      WeatherUtils.load('images/lightning3.webp'),
+      WeatherUtils.load('images/lightning4.webp'),
+      WeatherUtils.load('images/rain.webp'),
+      WeatherUtils.load('images/snow.webp'),
+      WeatherUtils.load('images/sun.webp'),
     ]);
     debugPrint('获取图片完成');
-    return WeatherImage(
+    return _WeatherImage(
       cloud: images[0],
       lightning0: images[1],
       lightning1: images[2],
@@ -55,7 +55,7 @@ class _WrapperSceneState extends State<WrapperScene> {
       future: _fetchImages,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          return _CloudAnimation(weatherImage: snapshot.data as WeatherImage, weatherType: widget.weatherType);
+          return _CloudAnimation(weatherImage: snapshot.data as _WeatherImage, weatherType: widget.weatherType);
         } else {
           return Container();
         }
