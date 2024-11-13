@@ -1,6 +1,9 @@
 part of '../weather_animation.dart';
 
 class WeatherUtils {
+  /// 存储图片
+  static _WeatherImage? _weatherImage;
+
   /// 通过assets路径，获取资源图片
   static Future<ui.Image> load(String asset) async {
     ByteData data = await rootBundle.load('packages/weather_animation/$asset');
